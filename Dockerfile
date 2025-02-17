@@ -13,14 +13,14 @@ COPY uv.lock /app/
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
 
-# Install dependencies
+# Install dependencies (without installing the project itself)
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-install-project --no-dev --no-editable
 
 # Copy the entire project into the container
 COPY . /app
 
-# Install the project
+# Install the project (this will create the virtual environment in /app/.venv)
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev --no-editable
 
@@ -30,8 +30,7 @@ FROM python:3.12-slim-bookworm
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the installed application from the previous stage
-COPY --from=uv /root/.local /root/.local
+# Copy the virtual environment from the builder stage. The /root/.local copy is removed
 COPY --from=uv --chown=app:app /app/.venv /app/.venv
 
 # Add the virtual environment to the PATH
