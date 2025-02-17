@@ -68,6 +68,14 @@ Empowering chat applications to code, build and run on your local machine.
 
 ## Claude setup (using mcp)
 
+### Installing via Smithery
+
+To install wcgw for Claude Desktop automatically via [Smithery](https://smithery.ai/server/wcgw):
+
+```bash
+npx -y @smithery/cli install wcgw --client claude
+```
+
 First install `uv` using homebrew `brew install uv`
 
 (**Important:** use homebrew to install uv. Otherwise make sure `uv` is present in a global location like /usr/bin/)
